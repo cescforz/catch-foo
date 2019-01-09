@@ -1,4 +1,4 @@
-package cn.cescforz.foo.config.redis;
+package cn.cescforz.foo.bean.model;
 
 import cn.cescforz.foo.constant.SystemConstants;
 import com.alibaba.fastjson.JSON;
@@ -17,7 +17,7 @@ import org.springframework.data.redis.serializer.SerializationException;
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     private Class<T> clazz;
-    FastJsonRedisSerializer(Class<T> clazz) {
+    public FastJsonRedisSerializer(Class<T> clazz) {
         super();
         this.clazz = clazz;
     }

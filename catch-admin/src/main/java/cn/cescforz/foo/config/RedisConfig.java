@@ -1,11 +1,13 @@
-package cn.cescforz.foo.config.redis;
+package cn.cescforz.foo.config;
 
+import cn.cescforz.foo.bean.model.FastJsonRedisSerializer;
 import com.alibaba.fastjson.parser.ParserConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -65,7 +67,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         // 设置白名单---非常重要(说明见下面注释) ParserConfig.getGlobalInstance().addAccept("cn.cescforz.bar.bean.");
         String methodName = "addAccept";
-        String args = "cn.cescforz.bar.bean.";
+        String args = "cn.cescforz.foo.bean.";
         boolean executed = false;
         ParserConfig parserConfig = ParserConfig.getGlobalInstance();
         for(Method m : ParserConfig.class.getDeclaredMethods()){
@@ -111,6 +113,27 @@ public class RedisConfig extends CachingConfigurerSupport {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(lettuceConnectionFactory);
         return template;
+    }
+
+
+    /**
+     * <p>Description: redis主键生成策略工具类</p>
+     * @param
+     * @return org.springframework.cache.interceptor.KeyGenerator
+     */
+    @Bean
+    @Override
+    @ConditionalOnMissingBean
+    public KeyGenerator keyGenerator() {
+        return (target, method, params) -> {
+            StringBuffer sb = new StringBuffer();
+            sb.append(target.getClass().getName());
+            sb.append(method.getName());
+            for (Object obj : params) {
+                sb.append(obj.toString());
+            }
+            return sb.toString();
+        };
     }
 
     /*

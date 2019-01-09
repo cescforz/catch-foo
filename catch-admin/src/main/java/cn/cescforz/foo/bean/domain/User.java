@@ -1,46 +1,31 @@
 package cn.cescforz.foo.bean.domain;
 
-import java.io.Serializable;
+import cn.cescforz.foo.bean.model.BaseModel;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-public class User implements Serializable {
-    private static final long serialVersionUID = -1615048385248550669L;
 
-    private Integer userId;
+/**
+ * <p>©2018 Cesc. All Rights Reserved.</p>
+ * <p>Description: 用户</p>
+ * @author cesc
+ * @version v1.0
+ * @date Create in 2018-12-26 16:18
+ */
+@Data
+@NoArgsConstructor
+@TableName("t_user")
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseModel<ErrorLog> {
+
+    @TableField("user_name")
     private String userName;
+    @TableField("password")
     private String password;
+    @TableField("phone")
     private String phone;
 
-    public User() {}
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 }

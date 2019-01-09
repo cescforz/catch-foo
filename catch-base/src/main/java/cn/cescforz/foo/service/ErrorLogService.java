@@ -1,7 +1,7 @@
 package cn.cescforz.foo.service;
 
 import cn.cescforz.foo.bean.domain.ErrorLog;
-import cn.cescforz.foo.exception.ServerTransException;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>©2018 Cesc. All Rights Reserved.</p>
@@ -11,7 +11,6 @@ import cn.cescforz.foo.exception.ServerTransException;
  * @version v1.0
  * @date Create in 2018-12-26 17:54
  */
-public interface ErrorLogService {
+public interface ErrorLogService extends IService<ErrorLog> {
 
-    int insert(ErrorLog errorLog) throws ServerTransException;
 }

@@ -5,10 +5,14 @@ import cn.cescforz.foo.annotation.security.encrypt.EncryptBody;
 import cn.cescforz.foo.bean.domain.User;
 import cn.cescforz.foo.enumeration.EncryptBodyMethod;
 import cn.cescforz.foo.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -21,36 +25,25 @@ public class UserController {
      * 构造器注入更适合强制性的注入旨在不变性，Setter注入更适合可变性的注入
      */
 
-    private final UserService userService;
-
-
-
-    //｛@GetMapping、@PostMapping、@PutMapping、@DeleteMapping、@PatchMapping｝
+    private UserService userService;
 
     @ResponseBody
-    @PostMapping("/add")
-    @ApiOperation(value = "添加客户信息value位置",notes = "添加客户信息notes位置")
-    @ApiImplicitParam(paramType="query", name = "user", value = "用户信息", required = true, dataType = "User")
-    public int addUser(@RequestParam User user){
-        return userService.addUser(user);
+    @GetMapping("/all")
+    public Object findAllUser(){
+        List<User> list = userService.findAllUserName();
+        return list;
     }
 
-
     @ResponseBody
-    @ApiResponses(value = {@ApiResponse(code=0,message = "success")})
-    @ApiVersion(1)
-    @GetMapping("/{version}/all") // @GetMapping是一个组合注解 是@RequestMapping(method = RequestMethod.GET)的缩写
-    @ApiOperation(value = "获取全部客户信息value位置",notes = "获取全部客户信息notes位置")
-    public Object findAllUser(@PathVariable(value = "version") String version){
-        return userService.findAllUser();
-    }
-
-    @ApiVersion(2)
-    @ResponseBody
-    @GetMapping("/{version}/all") // @GetMapping是一个组合注解 是@RequestMapping(method = RequestMethod.GET)的缩写
-    @ApiOperation(value = "获取全部客户信息value2位置",notes = "获取全部客户信息notes2位置")
-    public Object findAllUser2(@PathVariable(value = "version") String version){
-        return "hello v2";
+    @GetMapping("/add")
+    public Object addUser(){
+        User user = new User();
+        user.setUserName("詹姆斯");
+        user.setPassword("123");
+        user.setPhone("18010689***");
+        userService.save(user);
+        Page<User> page = new Page<>(0,2);
+        return userService.selectPageVo(page,"詹姆斯");
     }
 
     @RequestMapping("/{id}")

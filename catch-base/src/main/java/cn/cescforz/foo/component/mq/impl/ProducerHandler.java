@@ -1,5 +1,6 @@
-package cn.cescforz.foo.config.mq.producer;
+package cn.cescforz.foo.component.mq.impl;
 
+import cn.cescforz.foo.config.mq.producer.Producer;
 import cn.cescforz.foo.constant.RocketMQConstants;
 import cn.cescforz.foo.util.StringCustomUtils;
 import com.alibaba.fastjson.JSON;

@@ -1,8 +1,8 @@
-package cn.cescforz.foo.service.impl;
+package cn.cescforz.foo.component.mq.impl;
 
 import cn.cescforz.foo.bean.domain.ErrorLog;
 import cn.cescforz.foo.bean.model.ConsumerEvent;
-import cn.cescforz.foo.config.mq.consumer.Consumer;
+import cn.cescforz.foo.component.mq.Consumer;
 import cn.cescforz.foo.constant.SystemConstants;
 import cn.cescforz.foo.service.ErrorLogService;
 import com.alibaba.fastjson.JSON;
@@ -26,8 +26,13 @@ import java.util.List;
 @Component
 public class ConsumerHandler extends Consumer {
 
-    @Autowired
+
     private ErrorLogService errorLogService;
+
+    @Autowired
+    public void setErrorLogService(ErrorLogService errorLogService) {
+        this.errorLogService = errorLogService;
+    }
 
     @Override
     @EventListener(condition = "#event.msgs[0].topic=='CATCH_FOO_TOPIC' && #event.msgs[0].tags=='HANDLE_EXCEPTION_TAG'")
@@ -39,10 +44,11 @@ public class ConsumerHandler extends Consumer {
                 String body = new String(msg.getBody(), SystemConstants.CHARSET_UTF_8);
                 log.info("消费消息：{}",body);
                 ErrorLog errorLog = JSON.parseObject(body, ErrorLog.class);
-                errorLogService.insert(errorLog);
+                errorLogService.save(errorLog);
             }
         } catch (Exception e) {
             log.error("消费消息出错:",e);
         }
     }
+
 }

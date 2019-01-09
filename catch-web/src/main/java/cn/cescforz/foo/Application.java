@@ -8,7 +8,6 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @ServletComponentScan
 @SpringBootApplication
-@MapperScan("cn.cescforz.foo.dao")//将项目中对应的mapper类的路径加进来就可以了
 @EnableEncryptBody
 public class Application {
 

@@ -1,4 +1,4 @@
-package cn.cescforz.foo.config.mq.consumer;
+package cn.cescforz.foo.component.mq;
 
 import cn.cescforz.foo.bean.model.ConsumerEvent;
 

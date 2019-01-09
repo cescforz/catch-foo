@@ -1,6 +1,7 @@
 package cn.cescforz.foo.bean.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
  * @date Create in 2018-12-26 09:49
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ResponseDTO<T> extends BaseApiResponse {
 
     private static final long serialVersionUID = -8094962736273570120L;

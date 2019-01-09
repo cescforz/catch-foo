@@ -27,6 +27,7 @@ public final class SystemConstants {
      * 日期默认格式
      */
     public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_TIME_ZONE = "GMT+8";
 
 
 

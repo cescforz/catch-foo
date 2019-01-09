@@ -1,48 +1,38 @@
 package cn.cescforz.foo.service.impl;
 
 import cn.cescforz.foo.bean.domain.User;
-import cn.cescforz.foo.dao.UserDao;
+import cn.cescforz.foo.mapper.UserMapper;
 import cn.cescforz.foo.enumeration.ResponseCode;
 import cn.cescforz.foo.exception.ServerTransException;
 import cn.cescforz.foo.service.UserService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service(value = "userService")
-public class UserServiceImpl implements UserService {
+@Service
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Resource
-    private UserDao userDao;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
 
     @Override
-    public int addUser(User user) {
-        return userDao.insert(user);
+    public List<User> findAllUserName() {
+        List<User> list = baseMapper.findAllUserName();
+        mongoTemplate.insert(list.get(0));
+        return list;
     }
 
     @Override
-    public List<User> findAllUser() {
-        return userDao.selectUsers();
-    }
-
-    @Override
-    public int test() throws ServerTransException {
-        throw new ServerTransException(ResponseCode.ACCOUNT_DISABLED);
-    }
-
-    @Override
-    public User getUser(Integer id) {
-        System.out.println(id+"进入实现类获取数据！");
-        User user = new User();
-        user.setUserId(id);
-        user.setUserName("香菇,难受");
-        user.setPhone("18010**9382");
-        return user;
-    }
-
-    @Override
-    public void deleteUser(Integer id) {
-        System.out.println(id+"进入实现类删除数据！");
+    @Transactional
+    public IPage<User> selectPageVo(Page page, String userName) {
+        return baseMapper.selectPageVo(page, userName);
     }
 }

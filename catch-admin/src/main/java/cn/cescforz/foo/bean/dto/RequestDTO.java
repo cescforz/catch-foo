@@ -1,6 +1,7 @@
 package cn.cescforz.foo.bean.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class RequestDTO<T> extends BaseApiRequest {
 
     private static final long serialVersionUID = -2396868198757572959L;

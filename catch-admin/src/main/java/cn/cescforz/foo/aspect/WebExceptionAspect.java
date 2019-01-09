@@ -115,11 +115,8 @@ public class WebExceptionAspect {
      */
     private void recordException(String methodName,String param,Throwable e,Long consumeTime){
         ErrorLog errorLog = new ErrorLog();
-        String id = UUID.randomUUID().toString();
-        errorLog.setId(id);
         errorLog.setInterfaceName(methodName);
         errorLog.setRequestParam(param);
-        errorLog.setLogTime(new Date());
         if (null != e) {
             StackTraceElement stackTraceElement= e.getStackTrace()[0];
             String errorInfo = String.format("%s,errorMassage:%s,errorLine:%d",e.toString(),stackTraceElement,stackTraceElement.getLineNumber());

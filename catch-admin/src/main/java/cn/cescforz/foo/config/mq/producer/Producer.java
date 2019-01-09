@@ -1,7 +1,6 @@
 package cn.cescforz.foo.config.mq.producer;
 
 
-
 /**
  * <p>©2019 Cesc. All Rights Reserved.</p>
  * <p>Description: RocketMQ生产者消息处理抽象类</p>
@@ -13,9 +12,9 @@ package cn.cescforz.foo.config.mq.producer;
 public abstract class Producer<T> {
 
 
-     public abstract void sendMsg(T t,String topic, String tag, String key);
+    public abstract void sendMsg(T t, String topic, String tag, String key);
 
-     public abstract void sendTxMsg(T t,String topic, String tag, String key);
+    public abstract void sendTxMsg(T t, String topic, String tag, String key);
 
 }
 

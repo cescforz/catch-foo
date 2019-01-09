@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.cescforz.foo.dao.ErrorLogDAO" >
+<mapper namespace="cn.cescforz.foo.mapper.ErrorLogMapper" >
 
     <resultMap id="BaseResultMap" type="cn.cescforz.foo.bean.domain.ErrorLog" >
-        <id column="id" property="id" jdbcType="VARCHAR" />
         <result column="interface_name" property="interfaceName" jdbcType="VARCHAR" />
         <result column="request_param" property="requestParam" jdbcType="VARCHAR" />
         <result column="log_info" property="logInfo" jdbcType="VARCHAR" />
         <result column="module_type" property="moduleType" jdbcType="CHAR" />
         <result column="consume_time" property="consumeTime" jdbcType="BIGINT" />
-        <result column="log_time" property="logTime" jdbcType="DATE" />
     </resultMap>
 
-    <insert id="insert" parameterType="cn.cescforz.foo.bean.domain.ErrorLog">
-        INSERT INTO t_error_logs
-          (id,interface_name,request_param,consume_time,log_info,module_type,log_time)
-        values
-          (#{id},#{interfaceName},#{requestParam},#{consumeTime},#{logInfo},#{moduleType},#{logTime})
-    </insert>
+
 </mapper>

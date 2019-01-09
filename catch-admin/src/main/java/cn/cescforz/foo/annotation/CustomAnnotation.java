@@ -105,10 +105,25 @@ public class CustomAnnotation {
 
         @ConditionalOnExpression:根据表达式的值,来创建当前bean的实例
 
+        ---------------------<  缓存支持  >------------------------
         @EnableCaching注解是spring framework中的注解驱动的缓存管理功能。
         自spring版本3.1起加入了该注解。如果你使用了这个注解，那么你就不需要在XML文件中配置cache manager了。
         当你在配置类(@Configuration)上使用@EnableCaching注解时，会触发一个post processor，这会扫描每一个spring bean，
         查看是否已经存在注解对应的缓存。如果找到了，就会自动创建一个代理拦截方法调用，使用缓存的bean执行处理。
+        @Cacheable：在方法执行前 Spring 先查看缓存中是否有数据，如果有数据，则直接返回缓存数据；没有则调用方法并将方法返回值放进缓存。
+        @CachePut：将方法的返回值放到缓存中。
+        @CacheEvict：删除缓存中的数据。
+
+
+        Hibernate 注解:
+        数据库的字段类型有 date、time、datetime
+        而 Temporal 注解的作用就是帮 Java 的 Date 类型进行格式化，一共有三种注解值：
+　　      第一种：@Temporal(TemporalType.DATE)——> 实体类会封装成日期 “yyyy-MM-dd” 的 Date 类型。
+　　      第二种：@Temporal(TemporalType.TIME)——> 实体类会封装成时间 “hh-MM-ss” 的 Date 类型。
+　　      第三种：@Temporal(TemporalType.TIMESTAMP)——> 实体类会封装成完整的时间 “yyyy-MM-dd hh:MM:ss” 的 Date 类型。
+        --------------------< controller >------------------------
+        ｛@GetMapping、@PostMapping、@PutMapping、@DeleteMapping、@PatchMapping｝
+        @GetMapping是一个组合注解 是@RequestMapping(method = RequestMethod.GET)的缩写
 
      */
 

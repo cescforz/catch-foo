@@ -1,6 +1,7 @@
-package cn.cescforz.foo.dao;
+package cn.cescforz.foo.mapper;
 
 import cn.cescforz.foo.bean.domain.ErrorLog;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>©2018 Cesc. All Rights Reserved.</p>
@@ -10,7 +11,6 @@ import cn.cescforz.foo.bean.domain.ErrorLog;
  * @version v1.0
  * @date Create in 2018-12-26 17:02
  */
-public interface ErrorLogDAO {
+public interface ErrorLogMapper extends BaseMapper<ErrorLog> {
 
-    int insert(ErrorLog errorLog);
 }
