@@ -28,7 +28,7 @@ public class BaseDaoImpl<T extends BaseUUIDGenModel<T>> implements BaseDao<T> {
     public BaseDaoImpl(MongoTemplate mongoTemplate) {
         Document doc = entityClass.getAnnotation(Document.class);
         if (null != doc) {
-            this.collectionName = doc.value();
+            this.collectionName = doc.collection();
         } else {
             this.collectionName = entityClass.getSimpleName().toLowerCase();
         }
