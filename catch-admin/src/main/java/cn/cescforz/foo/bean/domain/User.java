@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("t_user")
 @EqualsAndHashCode(callSuper = true)
-public class User extends BaseModel<ErrorLog> {
+public class User extends BaseModel<User> {
 
     @TableField("user_name")
     private String userName;
