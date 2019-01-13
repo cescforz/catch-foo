@@ -126,6 +126,7 @@ public class WebExceptionAspect {
             errorLog.setConsumeTime(consumeTime);
         }
         errorLog.setModuleType(1);
+        errorLog.setCreateDate(new Date());
         producer.sendTxMsg(errorLog, RocketMQConstants.CATCH_FOO_TOPIC, RocketMQConstants.HANDLE_EXCEPTIONS_TAG, RocketMQConstants.CATCH_BAR_KEY);
     }
 

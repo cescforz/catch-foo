@@ -4,7 +4,7 @@ import cn.cescforz.foo.bean.domain.ErrorLog;
 import cn.cescforz.foo.bean.model.ConsumerEvent;
 import cn.cescforz.foo.component.mq.Consumer;
 import cn.cescforz.foo.constant.SystemConstants;
-import cn.cescforz.foo.service.ErrorLogService;
+import cn.cescforz.foo.dao.ErrorLogDao;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -26,12 +26,11 @@ import java.util.List;
 @Component
 public class ConsumerHandler extends Consumer {
 
-
-    private ErrorLogService errorLogService;
+    private ErrorLogDao errorLogDao;
 
     @Autowired
-    public void setErrorLogService(ErrorLogService errorLogService) {
-        this.errorLogService = errorLogService;
+    public ConsumerHandler(ErrorLogDao errorLogDao) {
+        this.errorLogDao = errorLogDao;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ConsumerHandler extends Consumer {
                 String body = new String(msg.getBody(), SystemConstants.CHARSET_UTF_8);
                 log.info("消费消息：{}",body);
                 ErrorLog errorLog = JSON.parseObject(body, ErrorLog.class);
-                errorLogService.save(errorLog);
+                errorLogDao.insert(errorLog);
             }
         } catch (Exception e) {
             log.error("消费消息出错:",e);

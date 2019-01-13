@@ -1,9 +1,9 @@
 package cn.cescforz.foo.bean.domain;
 
+import cn.cescforz.foo.bean.model.BaseUUIDGenModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 /**
  * <p>©2019 Cesc. All Rights Reserved.</p>
@@ -13,10 +13,10 @@ import java.io.Serializable;
  * @version v1.0
  * @date Create in 2019-01-10 00:31
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class Order implements Serializable {
+public class Order extends BaseUUIDGenModel<Order> {
 
-    private Long id;
     private String name;
 }

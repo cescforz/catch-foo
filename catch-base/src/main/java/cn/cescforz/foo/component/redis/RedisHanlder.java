@@ -1,6 +1,8 @@
 package cn.cescforz.foo.component.redis;
 
+import cn.cescforz.foo.properties.SystemProperties;
 import org.springframework.data.redis.core.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -20,11 +22,14 @@ import java.util.stream.Stream;
  * @date Create in 2019-01-09 08:55
  */
 @Component
+@EnableScheduling //开启定时器功能
 public class RedisHanlder<K,V> {
 
 
     @Resource
     private RedisTemplate<K, V> redisTemplate;
+    @Resource
+    private SystemProperties systemProperties;
 
     /**
      * 默认过期时长，单位：秒
@@ -123,6 +128,15 @@ public class RedisHanlder<K,V> {
      */
     public void persistKey(K key) {
         redisTemplate.persist(key);
+    }
+
+
+    /**
+     * <p>Description: 向redis消息队列频道发布消息</p>
+     * @param message 消息
+     */
+    public void sendMessage(Object message){
+        redisTemplate.convertAndSend(systemProperties.getRedisAisle(),message);
     }
 
 

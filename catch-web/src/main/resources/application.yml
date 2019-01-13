@@ -71,4 +71,5 @@ interface:
   request:
     timeout: 3000 #接口调用超时时间
 
-
+system-config:
+    redis-aisle: msg

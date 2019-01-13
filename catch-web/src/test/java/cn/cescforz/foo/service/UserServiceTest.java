@@ -1,19 +1,22 @@
 package cn.cescforz.foo.service;
 
 import cn.cescforz.foo.ApplicationTest;
+import cn.cescforz.foo.bean.domain.Order;
 import cn.cescforz.foo.bean.domain.User;
+import cn.cescforz.foo.bean.model.BaseUUIDGenModel;
 import cn.cescforz.foo.component.redis.RedisHanlder;
-import cn.cescforz.foo.util.RedisKeyUtils;
-import com.alibaba.fastjson.parser.ParserConfig;
+import cn.cescforz.foo.dao.OrderDao;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Var;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.interceptor.KeyGenerator;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -28,8 +31,6 @@ import java.util.concurrent.TimeUnit;
 @Rollback(value = false)
 public class UserServiceTest extends ApplicationTest {
 
-    @Autowired
-    private KeyGenerator KeyGenerator;
 
     @Autowired
     private UserService userService;
@@ -37,10 +38,14 @@ public class UserServiceTest extends ApplicationTest {
     @Autowired
     private RedisHanlder<String, User> redisHanlder;
 
+
+
+    @Autowired
+    private OrderDao orderDao;
+
+
     @Test
     public void test(){
-
-
 
     }
 }

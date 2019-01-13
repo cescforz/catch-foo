@@ -1,6 +1,6 @@
 package cn.cescforz.foo.dao;
 
-import cn.cescforz.foo.bean.domain.Order;
+import cn.cescforz.foo.bean.domain.ErrorLog;
 
 /**
  * <p>©2019 Cesc. All Rights Reserved.</p>
@@ -8,9 +8,7 @@ import cn.cescforz.foo.bean.domain.Order;
  *
  * @author cesc
  * @version v1.0
- * @date Create in 2019-01-10 00:30
+ * @date Create in 2019-01-14 00:35
  */
-public interface OrderDAO {
-
-    void insert(Order order);
+public interface ErrorLogDao extends BaseDao<ErrorLog> {
 }

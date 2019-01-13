@@ -1,6 +1,7 @@
 package cn.cescforz.foo.bean.domain;
 
 import cn.cescforz.foo.bean.model.BaseModel;
+import cn.cescforz.foo.bean.model.BaseUUIDGenModel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -17,18 +18,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
-@TableName("t_error_logs")
-public class ErrorLog extends BaseModel<ErrorLog> {
+public class ErrorLog extends BaseUUIDGenModel<ErrorLog> {
 
-    @TableField("interface_name")
     private String interfaceName;
-    @TableField("request_param")
     private String requestParam;
-    @TableField("consume_time")
     private Long consumeTime;
-    @TableField("log_info")
     private String logInfo;
-    @TableField("module_type")
     private Integer moduleType;
 
 }

@@ -9,10 +9,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -21,14 +19,14 @@ import java.util.Date;
  *
  * @author cesc
  * @version v1.0
- * @date Create in 2019-01-09 15:23
+ * @date Create in 2019-01-13 22:28
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BaseModel<T extends Model> extends Model<T> {
+public class BaseUUIDGenModel<T extends Model> extends Model<T> {
 
-    @TableId(value = "id", type = IdType.AUTO) //阿里规约:其中id必为主键，类型为unsigned bigint、单表时自增、步长为1
-    private Long id;
+    @TableId(value = "id", type = IdType.UUID)
+    private String id;
 
     @TableField(value = "gmt_create")
     @JsonProperty(value = "createDate")
@@ -41,20 +39,4 @@ public class BaseModel<T extends Model> extends Model<T> {
     @DateTimeFormat(pattern = SystemConstants.DEFAULT_DATE_PATTERN)
     @JsonFormat(pattern = SystemConstants.DEFAULT_DATE_PATTERN,timezone = SystemConstants.DEFAULT_TIME_ZONE)
     private Date updateDate;
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
-
-    /*
-        AUTO(0, "数据库ID自增"),
-        INPUT(1, "用户输入ID"),
-        ID_WORKER(2, "全局唯一ID"),
-        UUID(3, "全局唯一ID"),
-        NONE(4, "该类型为未设置主键类型"),
-        ID_WORKER_STR(5, "字符串全局唯一ID");
-     */
-
 }
-

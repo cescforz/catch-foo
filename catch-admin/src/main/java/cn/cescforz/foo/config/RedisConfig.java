@@ -1,8 +1,11 @@
 package cn.cescforz.foo.config;
 
 import cn.cescforz.foo.bean.model.FastJsonRedisSerializer;
+import cn.cescforz.foo.listener.redis.MessageReceiver;
+import cn.cescforz.foo.properties.SystemProperties;
 import com.alibaba.fastjson.parser.ParserConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -17,6 +20,9 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.lang.reflect.Method;
@@ -34,6 +40,13 @@ import java.time.Duration;
 @Configuration
 @EnableCaching // 开启缓存支持
 public class RedisConfig extends CachingConfigurerSupport {
+
+    private SystemProperties systemProperties;
+
+    @Autowired
+    public void setSystemProperties(SystemProperties systemProperties) {
+        this.systemProperties = systemProperties;
+    }
 
     @Bean
     @Primary //当有多个管理器的时候，必须使用该注解在一个管理器上注释：表示该管理器为默认的管理器
@@ -135,6 +148,39 @@ public class RedisConfig extends CachingConfigurerSupport {
             return sb.toString();
         };
     }
+
+    /**
+     * <p>Description: redis消息监听器容器
+     * 可以添加多个监听不同话题的redis监听器，只需要把消息监听器和相应的消息订阅处理器绑定，该消息监听器
+     * 通过反射技术调用消息订阅处理器的相关方法进行一些业务处理</p>
+     * @param lettuceConnectionFactory 1
+     * @param adapter 2
+     * @return org.springframework.data.redis.listener.RedisMessageListenerContainer
+     */
+    @Bean
+    public RedisMessageListenerContainer container(LettuceConnectionFactory lettuceConnectionFactory,MessageListenerAdapter adapter) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(lettuceConnectionFactory);
+        String redisAisle = systemProperties.getRedisAisle();
+        //配置监听通道
+        container.addMessageListener(adapter, new PatternTopic(redisAisle));
+        log.info(String.format("redis消息队列初始化监听成功，正在监听通道:%s",redisAisle));
+        return container;
+    }
+
+    /**
+     * <p>Description: 消息监听器适配器，绑定消息处理器，利用反射技术调用消息处理器的业务方法</p>
+     * @param receiver
+     * @return org.springframework.data.redis.listener.adapter.MessageListenerAdapter
+     */
+    @Bean
+    MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
+        //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“receiveMessage”
+        return new MessageListenerAdapter(receiver, "receiveMessage");
+    }
+
+
+
 
     /*
         Jedis 是直连模式，在多个线程间共享一个 Jedis 实例时是线程不安全的，

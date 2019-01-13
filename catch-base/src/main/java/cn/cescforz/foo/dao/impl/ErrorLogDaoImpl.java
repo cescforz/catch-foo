@@ -1,7 +1,7 @@
 package cn.cescforz.foo.dao.impl;
 
-import cn.cescforz.foo.bean.domain.Order;
-import cn.cescforz.foo.dao.OrderDAO;
+import cn.cescforz.foo.bean.domain.ErrorLog;
+import cn.cescforz.foo.dao.ErrorLogDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,17 +12,13 @@ import org.springframework.stereotype.Repository;
  *
  * @author cesc
  * @version v1.0
- * @date Create in 2019-01-10 00:32
+ * @date Create in 2019-01-14 00:36
  */
 @Repository
-public class OrderDAOImpl implements OrderDAO {
+public class ErrorLogDaoImpl extends BaseDaoImpl<ErrorLog> implements ErrorLogDao {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
-
-
-    @Override
-    public void insert(Order order) {
-        mongoTemplate.insert(order);
+    public ErrorLogDaoImpl(MongoTemplate mongoTemplate) {
+        super(mongoTemplate);
     }
 }
