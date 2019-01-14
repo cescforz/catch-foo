@@ -1,22 +1,16 @@
 package cn.cescforz.foo.service;
 
 import cn.cescforz.foo.ApplicationTest;
-import cn.cescforz.foo.bean.domain.Order;
 import cn.cescforz.foo.bean.domain.User;
-import cn.cescforz.foo.bean.model.BaseUUIDGenModel;
+import cn.cescforz.foo.component.mail.MailService;
 import cn.cescforz.foo.component.redis.RedisHanlder;
-import cn.cescforz.foo.dao.OrderDao;
-import com.alibaba.fastjson.JSON;
+import cn.cescforz.foo.dao.ErrorLogDao;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.annotation.Rollback;
-
-import java.util.Date;
-import java.util.List;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 
 /**
@@ -38,14 +32,25 @@ public class UserServiceTest extends ApplicationTest {
     @Autowired
     private RedisHanlder<String, User> redisHanlder;
 
-
+    @Autowired
+    private MailService mailService;
 
     @Autowired
-    private OrderDao orderDao;
+    private TemplateEngine templateEngine;//注入模板引擎
+
+    @Autowired
+    private ErrorLogDao errorLogDao;
 
 
     @Test
-    public void test(){
+    public void test() throws Exception{
+        //mailService.sendSimpleMail("412410295@qq.com","注册验证","这是一封普通的SpringBoot测试邮件");
+        Context context = new Context();
+        context.setVariable("project", "catch-foo");
+        context.setVariable("author", "cescforz");
+        context.setVariable("url", "https://github.com/cescforz");
+        String emailContent = templateEngine.process("mail", context);
 
+        mailService.sendHtmlMail("cescforz@foxmail.com", "工作进度", emailContent);
     }
 }

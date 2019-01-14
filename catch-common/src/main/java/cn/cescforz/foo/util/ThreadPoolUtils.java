@@ -13,7 +13,7 @@ import java.util.concurrent.*;
  * @version v1.0
  * @date Create in 2019-01-01 22:04
  */
-public class ThreadPoolUtils {
+public final class ThreadPoolUtils {
 
     private ThreadPoolUtils() {}
 

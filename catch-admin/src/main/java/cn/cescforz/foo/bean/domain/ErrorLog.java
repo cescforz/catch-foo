@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * <p>©2018 Cesc. All Rights Reserved.</p>
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
+@Document(collection = "errorLog")
 public class ErrorLog extends BaseUUIDGenModel<ErrorLog> {
 
     private String interfaceName;

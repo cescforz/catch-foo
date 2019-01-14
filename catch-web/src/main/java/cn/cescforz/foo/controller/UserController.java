@@ -2,13 +2,10 @@ package cn.cescforz.foo.controller;
 
 import cn.cescforz.foo.annotation.ApiVersion;
 import cn.cescforz.foo.annotation.security.encrypt.EncryptBody;
-import cn.cescforz.foo.bean.domain.Order;
 import cn.cescforz.foo.bean.domain.User;
-import cn.cescforz.foo.dao.OrderDao;
+import cn.cescforz.foo.dao.ErrorLogDao;
 import cn.cescforz.foo.enumeration.EncryptBodyMethod;
 import cn.cescforz.foo.service.UserService;
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +15,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 @Slf4j
 @Controller
@@ -34,7 +30,7 @@ public class UserController {
 
     private UserService userService;
 
-    private OrderDao orderDao;
+    private ErrorLogDao errorLogDao;
 
     @ResponseBody
     @GetMapping("/all")
@@ -73,21 +69,14 @@ public class UserController {
     @ResponseBody
     @GetMapping("/foo")
     public Object test(){
-        Order order = new Order();
-        order.setName("wade");
-        order.setCreateDate(new Date());
-        order.setUpdateDate(new Date());
-        orderDao.insert(order);
-        Query query = Query.query(Criteria.where("name").is("wade"));
-        List<Order> list = orderDao.find(query);
-        log.info("result:{}", JSON.toJSONString(list,true));
-        return list;
+        Query query = Query.query(Criteria.where("requestParam").is("0"));
+        return errorLogDao.find(query);
     }
 
     @Autowired
-    public UserController(UserService userService, OrderDao orderDao) {
+    public UserController(UserService userService, ErrorLogDao errorLogDao) {
         this.userService = userService;
-        this.orderDao = orderDao;
+        this.errorLogDao = errorLogDao;
     }
 
 

@@ -15,7 +15,17 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{50} - %msg%n</pattern>
             <charset>utf8</charset>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
     </appender>
+
+    <!--改变某个包的日志级别
+        <logger name="packname" level="OFF"/>
+    -->
+    <!--关闭mongodb INFO级别以下日志-->
+    <logger name="org.mongodb.driver" level="INFO"/>
+
 
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -65,6 +75,9 @@
         </triggeringPolicy>
     </appender>
 
+    <!--日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL ，
+    且级别是逐渐提供，如果日志级别设置为INFO，则意味TRACE和DEBUG级别的日志都看不到
+    -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="DEBUG_FILE"/>

@@ -19,14 +19,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
 
     @Override
     public List<User> findAllUserName() {
         List<User> list = baseMapper.findAllUserName();
-        mongoTemplate.insert(list.get(0));
         return list;
     }
 
